@@ -44,17 +44,14 @@ const scripts =`ordr_gds_idx NUMERIC(20,0) auto_increment ,
 	invoice_reg_dt CHAR(14) ,
 );`
 
-// const toCamelCase = (str) => {
-//    return str.toLowerCase().replace(/[^a-zA-Z0-9]+(.)/g, (m, chr) => chr.toUpperCase());
-// }
 
-// function toCamelCase(str){
-//   return str.toLowerCase().replace(/[^a-zA-Z0-9]+(.)/g, (m, chr) => chr.toUpperCase());
-// }
+const toCamelCase = (str) =>{
+  return str.toLowerCase().replace(/[^a-zA-Z0-9]+(.)/g, (m, chr) => chr.toUpperCase());
+}
 
 const solution = (scripts) => {
   const accessModifier = ['public','private','protected','defalut'];
-  const match = /[\{\}\[\]\/0-9?.,;:|\)*~`!^\-_+<>@\#$%&\\\=\(\'\"]/gi;
+  const match = /[\{\}\[\]\/0-9?.,;:|\)*~`!^\-+<>@\#$%&\\\=\(\'\"]/gi;
 
   scripts = scripts.toLowerCase();
   let str = scripts.trim()
@@ -73,8 +70,5 @@ const solution = (scripts) => {
  })
   
 }
-
-
-
 
 solution(scripts);
