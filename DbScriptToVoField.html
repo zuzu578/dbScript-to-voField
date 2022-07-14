@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width">
+  <title>replit</title>
+  <link href="style.css" rel="stylesheet" type="text/css" />
+  <!-- CSS only -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
+</head>
+
+<body>
+<div class="wrapper">
+<h4 class="title">컬럼 을 vo로 변환해줍니다.💪</h4>
+<div class="form-floating">
+  <textarea class="form-control" placeholder="Leave a comment here" id="floatingTextarea"></textarea>
+  <label for="floatingTextarea">테이블 ddl 문의 컬럼을 입력해주세요.</label>
+</div>
+<div class="buttons">
+<button type="button" onclick="convertingVO()" class="btn btn-primary">변환하기!</button>
+</div>
+<div id="resultArea">
+
+
+</div>
+</div>
+
+
+<script src="https://replit.com/public/js/replit-badge.js" theme="blue" defer></script> 
+</body>
+  <script>
+
+const toCamelCase = (str) =>{
+  return str.toLowerCase().replace(/[^a-zA-Z0-9]+(.)/g, (m, chr) => chr.toUpperCase());
+}
+
+const convertingVO = () => {
+  const element = document.getElementById("resultArea");
+  // 초기화 
+  element.innerHTML = "";
+  let scripts = document.getElementById("floatingTextarea").value;
+  if(!scripts){
+    alert('내용을 입력해주세요.');
+    return;
+  }
+  const accessModifier = ['public','private','protected','defalut'];
+  const match = /[\{\}\[\]\/0-9?.,;:|\)*~`!^\-+<>@\#$%&\\\=\(\'\"]/gi;
+
+  scripts = scripts.toLowerCase();
+  let str = scripts.trim()
+    .replaceAll("numeric","int")
+    .replaceAll("varchar","String")
+    .replaceAll("auto_increment","")
+    .replaceAll("default null not null","")
+    .replaceAll("default null","")
+    .replaceAll("constraint" ,"")
+    .replaceAll("primary key", "")
+
+  const resultArr = [];
+  const scriptArr = str.split(',').map((item)=>item.trim()).map((item)=>item.replaceAll(match,"")).filter(item=>item != 0).map((item,index)=>{
+   const itemArr = item.split(' ');
+   resultArr.push(`@Column(name = "${itemArr[0]}")`);
+   resultArr.push(`${accessModifier[0]} ${itemArr[1]} ${toCamelCase(itemArr[0])};`);
+ })
+
+  render(resultArr);
+}
+
+const render = (param) => {
+  const element = document.getElementById("resultArea");
+  element.innerHTML = ` <h1>🎉변환에 성공했습니다!🎊</h1>`  
+  for(let i = 0 ; i < param.length ; i ++){
+    element.innerHTML += `<div>${param[i]}</br></div>`
+  }
+}
+
+    
+  </script>
+
+</html>
