@@ -41,7 +41,8 @@ const App = () => {
         console.log("result===>", item);
         const itemArr = item.split(" ");
         if (itemArr[0] !== "" && itemArr[1] !== "") {
-          result.push(`@Column(name = "${itemArr[0]}")`);
+          // @column anotation 필요할경우 주석해제.
+          // result.push(`@Column(name = "${itemArr[0]}")`);
           result.push(
             `${accessModifier[1]} ${itemArr[1]} ${toCamelCase(itemArr[0])};`
           );
